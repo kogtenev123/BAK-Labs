@@ -67,9 +67,10 @@ public:
 	float Stif() {
 		return k;
 	}
-	bool load(double m) { //Подвесить груз к пружине!!!!!!!!
+	bool load(double m, Vector v) { //Подвесить груз к пружине!!!!!!!!
 		if (m1 == 0) {
 			m1 = m;
+			r = v;
 			return true;
 		}
 		else if(m2 == 0 && fixed == false) {
@@ -80,15 +81,17 @@ public:
 	}
 	void fix(double i, double j) {  //зафиксировать пружину в данной точке
 		fixed = true;
-		p = (i, j);
+		Vector v(i, j);
+		p = v;
 	}
-	void move(Vector v) {
+	void move(const Vector& v) {
 		r = r + v;
 		l = sqrt((p.x - r.x) * (p.x - r.x) + (p.y - r.y) * (p.y - r.y));
 	}
 	Vector force() {
-		Vector f(p.x - r.x , p.y - r.y);
-		f = (k * (l - lo) / l) * f;
+		Vector f(r.x - p.x, r.y - p.y);
+		f = (k * (lo - l) / l) * f;
+		cout << f.y << endl;
 		return f;
 	}
 private:
@@ -108,14 +111,16 @@ public:
 	}
 	Point(double p, double v, double u, double V1, double V2) {
 		m = p;
-		r = (v, u);
-		V = (V1, V2);
+		Vector t(v, u);
+		Vector q(V1, V2);
+		r = t;
+		V = q;
 	}
 	double Weight() {
 		return m;
 	}
 	void hook(Spring& spring) { //подцепить груз к пружине
-		if (spring.load(m))
+		if (spring.load(m, r))
 			s.push_back(spring);
 	}
 	void del_hook() { //открепить пружину от груза!!!!
@@ -127,21 +132,19 @@ public:
 	double loc_y() {
 		return r.y;
 	} 	
-	void move(const Vector& dr) { //сдвинуть фиговину
+	void move(Vector dr) { //сдвинуть фиговину
 		r = r + dr;
+		for(int i = 0; i < s.size(); i++) {
+			s[i].move(dr);
+		}
 	}
-	Vector Movement(const double dt) {
+	Vector Movement(double dt) {
 		double g = -9.8;
 		Vector a = Force(g);
 		a = a / m;
-		V = V + dt * a;
+		V = V + (dt / 2) * a;
 		return dt * V;
-	} 	
-private:	
-	vector<Spring> s; //пружины, к которым подвешена данная точка
-	Vector r;//координаты точки
-	double m; //масса
-	Vector V; //скорость
+	}
 	Vector Force(double g) {
 		Vector f(g * m);
 		for(int i = 0; i < s.size(); i++) {
@@ -149,7 +152,13 @@ private:
 			f = f + u;
 		}
 		return f;		
-	}
+	} 	
+private:	
+	vector<Spring> s; //пружины, к которым подвешена данная точка
+	Vector r;//координаты точки
+	double m; //масса
+	Vector V; //скорость
+	
 };
 
 
@@ -157,17 +166,20 @@ private:
 
 
 int main() {
-	Spring s(40, 0.15, 0.15);
+	Spring s(40, 0.17, 0.15);
 	s.fix(2.0, 2.0);
-	Point p(0.1, 2.0, 1.85, 0, 0);
+	Point p(0.05, 2.0, 1.83, 0, 0);
+	Vector u(2, 4), v(2, 3);
+	u = u + v;
+	cout << u.x << u.y << u.z << endl;
+	//cout << p.loc_x() << "   " << p.loc_y() << "  " << p.Weight() << "   " << s.length() << "   " << s.length() - s.length0()  << endl;
 	p.hook(s);
-	s.load(p.Weight());
-	cout << p.loc_x() << "   " << p.loc_y();
-	for (int i = 0; i < 250; i++) {
+	//cout << s.length(); 
+	//s.load(p.Weight());
+	for (int i = 0; i < 1000; i++) {
 		Vector v = p.Movement(0.01);
 		p.move(v);
-		s.move(v);
-		//cout << v.x << "   " << v.y << "   " << p.loc_x() << "   " << p.loc_y() << endl;	 
+		cout << v.y << "  "  << p.loc_x() << "   " << p.loc_y() << "   " << s.length() << endl;	 
 	}
 	return 0;
 } 
