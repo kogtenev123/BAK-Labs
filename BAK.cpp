@@ -89,9 +89,8 @@ public:
 		l = sqrt((p.x - r.x) * (p.x - r.x) + (p.y - r.y) * (p.y - r.y));
 	}
 	Vector force() {
-		Vector f(r.x - p.x, r.y - p.y);
-		f = (k * (lo - l) / l) * f;
-		cout << f.y << endl;
+		Vector f(p.x - r.x, p.y - r.y);
+		f = (k * (l - lo) / l) * f;
 		return f;
 	}
 private:
@@ -142,9 +141,16 @@ public:
 		double g = -9.8;
 		Vector a = Force(g);
 		a = a / m;
-		V = V + (dt / 2) * a;
-		return dt * V;
-	}
+		Vector V1 = V;
+		V = V + dt * a;
+		return dt * V1 + (dt * dt / 2) * a;
+	}	
+private:	
+	vector<Spring> s; //пружины, к которым подвешена данная точка
+	Vector r;//координаты точки
+	double m; //масса
+	Vector V; //скорость
+	bool side;
 	Vector Force(double g) {
 		Vector f(g * m);
 		for(int i = 0; i < s.size(); i++) {
@@ -153,12 +159,6 @@ public:
 		}
 		return f;		
 	} 	
-private:	
-	vector<Spring> s; //пружины, к которым подвешена данная точка
-	Vector r;//координаты точки
-	double m; //масса
-	Vector V; //скорость
-	
 };
 
 
@@ -166,20 +166,14 @@ private:
 
 
 int main() {
-	Spring s(40, 0.17, 0.15);
+	Spring s(40, 0.18, 0.15);
 	s.fix(2.0, 2.0);
-	Point p(0.05, 2.0, 1.83, 0, 0);
-	Vector u(2, 4), v(2, 3);
-	u = u + v;
-	cout << u.x << u.y << u.z << endl;
-	//cout << p.loc_x() << "   " << p.loc_y() << "  " << p.Weight() << "   " << s.length() << "   " << s.length() - s.length0()  << endl;
+	Point p(0.05, 1.95, 1.82, 0, 0);
 	p.hook(s);
-	//cout << s.length(); 
-	//s.load(p.Weight());
-	for (int i = 0; i < 1000; i++) {
-		Vector v = p.Movement(0.01);
+	for (int i = 0; i < 5000; i++) {
+		Vector v = p.Movement(0.00045);
 		p.move(v);
-		cout << v.y << "  "  << p.loc_x() << "   " << p.loc_y() << "   " << s.length() << endl;	 
+		cout << p.loc_x() << "   " << p.loc_y() << "   " << s.length() << "   " << s.length() - s.length0()  << endl;
 	}
 	return 0;
 } 
@@ -190,9 +184,3 @@ int main() {
 
 
 
-
-
-
-
-
- 
