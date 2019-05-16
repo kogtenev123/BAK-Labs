@@ -59,15 +59,17 @@ Vector GravForce (Body& b1, Body& b2){
 }
 
 void Movement(const Vector& R, Body& b){
-    Vector v, v_0, dv;
-    v_0 = b.GetSpeed();
-    dv = ScalProduct(1/b.mass(), R);
-    v = AddVector(v_0, dv);
-    Vector r, r_0, dr;
-    r_0 = b.GetCoordinates();
-    dr = v;
-    r = AddVector(r_0, dr);
-    b.SetSpeed(v);
-    b.SetCoordinates(r);
+    if(b.collidingItems().size() == 0){
+        Vector v, v_0, dv;
+        v_0 = b.GetSpeed();
+        dv = ScalProduct(1/b.mass(), R);
+        v = AddVector(v_0, dv);
+        Vector r, r_0, dr;
+        r_0 = b.GetCoordinates();
+        dr = v;
+        r = AddVector(r_0, dr);
+        b.SetSpeed(v);
+        b.SetCoordinates(r);
+    }
     return;
 }
