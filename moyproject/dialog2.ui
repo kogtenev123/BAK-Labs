@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>dialog2</class>
+ <widget class="QWidget" name="dialog2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>578</width>
+    <height>245</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>m</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>x</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>y</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Второе тело</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Третье тело</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Первое тело</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Vx</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="line1m"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="line1x"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="line1y"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="line1Vx"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="line2m"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="line2x"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="line2y"/>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLineEdit" name="line2Vx"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="line3m"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Vy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLineEdit" name="line3x"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLineEdit" name="line3y"/>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLineEdit" name="line3Vx"/>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="line1Vy"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLineEdit" name="line2Vy"/>
+     </item>
+     <item row="5" column="3">
+      <widget class="QLineEdit" name="line3Vy"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
