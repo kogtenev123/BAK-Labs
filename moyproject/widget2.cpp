@@ -45,6 +45,8 @@ void Widget2::move(){
 
 void Widget2::on_pushButton_clicked()
 {
+    scene = new QGraphicsScene();
+    ui->graphicsView->setScene(scene);
     scene->setSceneRect(0,0,ui->graphicsView->width(),ui->graphicsView->height());
     dialog2* dialog = new dialog2();
     dialog->exec();
