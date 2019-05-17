@@ -71,3 +71,15 @@ void Widget2::on_pushButton_2_clicked()
         timer->start(50);
    }
 }
+
+void Widget2::on_pushButton_3_clicked()
+{
+    for(auto&i : scene->items()){
+        if(i->x() > this->width()){
+            this -> resize(i->x() + 50, this->height());
+        }
+        if(i->y() > this->ui->graphicsView->height()){
+            this -> resize(this->width(), i->y() + 150);
+        }
+    }
+}
