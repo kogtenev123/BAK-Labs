@@ -9,7 +9,7 @@
 
 class Body : public QGraphicsEllipseItem {
 public:
-    void SetCoordinates(Vector r);// установка координат
+    void SetCoordinates(Vector r);
     void SetSpeed(Vector v);// установка скорости
     Vector GetCoordinates();
     Vector GetSpeed();
@@ -25,9 +25,9 @@ private:
     QColor color; // цвет на изображении
 };//тело
 
-Vector GravForce (Body& b1, Body& b2);// вычисление силы, действующей со 2го тела на 1ое
+Vector GravForce (Body& b1, Body& b2);//
 
-void Movement(const Vector& R, Body& b);
+void Movement(Vector& R, Body& b);
 
 
 

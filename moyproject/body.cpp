@@ -51,25 +51,23 @@ double Body::mass() const{
 
 Vector GravForce (Body& b1, Body& b2){
     Vector r12;
-    r12 = DisVector(b2.GetCoordinates(), b1.GetCoordinates());
+    r12 = b2.GetCoordinates() - b1.GetCoordinates();
     Vector F21;
     F21.x = b1.mass() * b2.mass() * r12.x / (r12.Length()*r12.Length()*r12.Length());
     F21.y = b1.mass() * b2.mass() * r12.y / (r12.Length()*r12.Length()*r12.Length());
     return F21;
 }
 
-void Movement(const Vector& R, Body& b){
-    if(b.collidingItems().size() == 0){
-        Vector v, v_0, dv;
-        v_0 = b.GetSpeed();
-        dv = ScalProduct(1/b.mass(), R);
-        v = AddVector(v_0, dv);
-        Vector r, r_0, dr;
-        r_0 = b.GetCoordinates();
-        dr = v;
-        r = AddVector(r_0, dr);
-        b.SetSpeed(v);
-        b.SetCoordinates(r);
-    }
+void Movement(Vector& R, Body& b){
+    Vector v, v_0, dv;
+    v_0 = b.GetSpeed();
+    dv = (1.0/b.mass()) * R;
+    v = v_0 + dv;
+    Vector r, r_0, dr;
+    r_0 = b.GetCoordinates();
+    dr = v;
+    r = r_0 + dr;
+    b.SetSpeed(v);
+    b.SetCoordinates(r);
     return;
 }

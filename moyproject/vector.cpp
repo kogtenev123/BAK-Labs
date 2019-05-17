@@ -1,32 +1,44 @@
-#include <vector.h>
+#include "spring.h"
+#include "vector.h"
+#include "point.h"
+#include "cmath"
 
-Vector::Vector(double u, double v){
+Vector :: Vector() {
+    x = 0;
+    y = 0;
+    z = 0;
+}
+Vector :: Vector(double g) {
+    x = 0;
+    y = g;
+    z = 0;
+}
+Vector :: Vector(double u, double v) {
     x = u;
     y = v;
+    z = 0;
+}
+Vector operator+(const Vector& v, const Vector& u) {
+    Vector r(v.x + u.x, v.y + u.y);
+    return r;
+}
+Vector operator-(const Vector& v, const Vector& u) {
+    Vector r(v.x - u.x, v.y - u.y);
+    return r;
+}
+Vector operator*(const double& a, Vector& u) {
+    u.x *= a;
+    u.y *= a;
+    return u;
+}
+Vector operator/(Vector& u, const double& a) {
+   if (a != 0.0) {
+       u.x /= a;
+       u.y /= a;
+   }
+   return u;
 }
 
-double Vector::Length(){
-    return sqrt(x*x + y*y);
-}
-
-
-Vector AddVector(const Vector& v1, const Vector& v2){
-    Vector v;
-    v.x = v1.x + v2.x;
-    v.y = v1.y + v2.y;
-    return v;
-}
-
-Vector DisVector(const Vector& v1, const Vector& v2){
-    Vector v;
-    v.x = v1.x - v2.x;
-    v.y = v1.y - v2.y;
-    return v;
-}
-
-Vector ScalProduct(double a, const Vector& v){
-    Vector v1;
-    v1.x = a*v.x;
-    v1.y = a*v.y;
-    return v1;
+double Vector :: Length() {
+    return sqrt(x*x + y*y + z*z);
 }

@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <cmath>
 #include <math.h>
+#include "point.h"
 
 
 Spring::Spring(const double& c, const double& x){
@@ -16,9 +17,14 @@ Spring::Spring(const double& c, const double& x){
     l = x;
     m1 = 0;
     m2 = 0;
+    p.x = 400;
+    p.y = 400;
+    r.y = p.y + l;
+    r.x = p.x;
     angle = 0;
     item1 = nullptr;
     item2 = nullptr;
+    fixed = false;
     fixed1 = false;
     fixed2 = false;
     scaley = x/512;
@@ -39,6 +45,7 @@ Spring::Spring(const double& c, const double& x){
     timer->start(1);
 }
 
+
 double Spring::length() const {
     return l;
 }
@@ -51,9 +58,10 @@ double Spring::Stif() const{
     return k;
 }
 
+
 void Spring::deform(const double &dx){
-        l += dx;
-        scaley += dx/512;
+       // l += dx;
+        scaley += (4 * dx);
         setTransformationMode(Qt::SmoothTransformation);
         setTransform(QTransform().scale(scalex,scaley));
         fixator1->setRect(0,0,10/scalex,10/scaley);
@@ -62,28 +70,34 @@ void Spring::deform(const double &dx){
 }
 
 void Spring::fix(const double &i, const double &j){
-    x1 = i;
-    y1 = j;
+    Vector v(i, j);
+    p = v;
     fixed1 = true;
 }
 
-bool Spring::load(const double &m){
+bool Spring :: load(const double& m, const Vector& v) {
     if (m1 == 0.0) {
-        m1 = m;
-        return true;
-    }
-    else if(m2 == 0.0 && fixed1 == false) {
+      m1 = m;
+      r = v;
+      r.x = p.x;
+      r.y = p.y + l;
+      return true;
+    } else if(m2 == 0.0 && fixed == false) {
+        p = v;
+        r.x = p.x;
+        r.y = p.y - l;
         m2 = m;
         return true;
     }
     return false;
 }
 
-void Spring::move(){
-    if(scaley < 0.5){
-        deform(10);
-    }
+Vector Spring :: force() {
+    Vector f(p.x - r.x, p.y - r.y);
+    f = (k * (l - lo) / l) * f;
+    return f;
 }
+
 
 void Spring::col(){
     if(fixator1->collidingItems().size() !=0 and not fixed1){
@@ -120,24 +134,47 @@ void Spring::fixate(QGraphicsItem *item, int i){
 }
 
 
-void Spring::rotation(int x){
-    //double pi = 3.14;
-        angle += x;
-        //double a    = pi/180 * angle;
-        //double sina = sin(a);
-        //double cosa = cos(a);
 
-        /*QTransform rotationTransform(cosa, sina, -sina, cosa, 0, 0);
+void Spring::rotation(int x){
+    double pi = 3.14;
+        angle += x;
+        double a    = pi/180 * angle;
+        double sina = sin(a);
+        double cosa = cos(a);
+
+        QTransform rotationTransform(cosa, sina, -sina, cosa, 0, 0);
         QTransform scalingTransform(1, 0, 0, 1, 0, 0);
-        QTransform transform = rotationTransform * scalingTransform;
-        setTransform(transform);*/
-        setTransform(QTransform().rotate(angle).scale(scalex,scaley));
+        QTransform translationTransform(1, 0, 1, 0, -256, -256);
+        QTransform transform = rotationTransform * translationTransform * scalingTransform;
+        setTransform(transform);
+
 }
 
 
 void Spring::mousePressEvent(QGraphicsSceneMouseEvent* event){
     if(event->button() == Qt::RightButton){
         rotation(45);
+        //qDebug() << cos(angle*M_PI/180) << sin(angle*M_PI/180);
     }
 }
+
+
+void Spring::move(const Vector& v) {
+        r = r + v;
+        l = sqrt((p.x - r.x) * (p.x - r.x) + (p.y - r.y) * (p.y - r.y));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
