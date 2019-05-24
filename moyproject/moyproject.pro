@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
+    point.cpp \
         widget.cpp \
     spring.cpp \
     load.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
     dialog2.cpp
 
 HEADERS += \
+    point.h \
         widget.h \
     spring.h \
     load.h \
@@ -49,10 +51,10 @@ HEADERS += \
 
 FORMS += \
         widget.ui \
-    dialog.ui \
     mainwindow.ui \
     widget2.ui \
-    dialog2.ui
+    dialog2.ui \
+    dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

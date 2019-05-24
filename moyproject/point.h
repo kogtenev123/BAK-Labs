@@ -1,3 +1,4 @@
+
 #ifndef POINT_H
 #define POINT_H
 
@@ -5,9 +6,11 @@
 #include "vector.h"
 #include "vector"
 #include <QObject>
+#include "load.h"
+#include <QMouseEvent>
 using namespace std;
 
-class Point: public QObject {
+class Point: public QObject, public Load{
     Q_OBJECT
 public:
     Point();
@@ -19,14 +22,20 @@ public:
     double loc_y();//вернуть координату y
     void Move(const Vector& dr);//Передвинуть точку
     Vector Movement(double dt);//вектор ускрения точки
+    int UserType = 1;
+    vector<Spring*> springs;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    Vector V;//скорость
 private:
     vector<Spring*> s;//пружины, подцепленные к данному грузу
     Vector r;//радиус-вектор точки
     double m;//масса
-    Vector V;//скорость
     Vector Force(double g);//равнодействующая сил для данной точки
-
+    QGraphicsRectItem* fixator;
+    void rotation(double a);
+    double angle;
 public slots:
-    void move();
+    void col();
+    //void h();
 };
 #endif // POINT_H

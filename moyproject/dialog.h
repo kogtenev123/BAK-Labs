@@ -19,7 +19,7 @@ public:
     ~Dialog();
     QString text1;
     QString text2;
-
+    QString text3;
 private slots:
    void on_buttonBox_rejected();
 

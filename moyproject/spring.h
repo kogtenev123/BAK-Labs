@@ -1,3 +1,4 @@
+
 #ifndef MYOBJECT_H
 #define MYOBJECT_H
 
@@ -10,6 +11,8 @@
 #include <cmath>
 #include <QMouseEvent>
 #include <vector.h>
+#include <set>
+#include <vector>
 
 
 class Spring: public QObject, public QGraphicsPixmapItem{
@@ -26,27 +29,28 @@ public:
     Vector force();
     void fixate(QGraphicsItem* item, int i); //фиксация груза
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    void rotation(double a);
+    QGraphicsItem* item1;
+    QGraphicsItem* item2;
+    bool fixed1;
+    bool fixed2;
+    bool coll();
+    Vector dr;
 public slots:
     //void move(); //движение пружинки
-    void col();
+
 private:
     double k; //Жесткость пружины
     double lo, l; // длина и начальная длина
     Vector p, r;
     double m1, m2; //массы грузов
     bool fixed;
-    bool fixed1;
-    bool fixed2;
     double scaley; //масштаб по y
     double scalex; //масштаб по x
-    QGraphicsItem* item1;
-    QGraphicsItem* item2;
     QGraphicsRectItem* fixator1;
     QGraphicsRectItem* fixator2;
-    int angle;
-    Vector ds;
-
-    void rotation(int angle);
+    double angle;
+    std::set<QGraphicsItem*>* s;
 };
 
 

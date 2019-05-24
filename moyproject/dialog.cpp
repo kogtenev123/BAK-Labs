@@ -21,20 +21,23 @@ Dialog::~Dialog(){
     delete ui;
 }
 
-void Dialog::on_buttonBox_rejected()
-{
-    this->destroy();
-}
-
 void Dialog::on_buttonBox_accepted()
 {
-    if(ui->lineEdit->text() == "" or ui->lineEdit_2->text() == ""){
+    if(ui->lineEdit->text() == "" or ui->lineEdit_2->text() == "" or ui->lineEdit_3->text() == ""){
         QMessageBox* message = new QMessageBox(this);
         message->setText("Введите значения");
         message->show();
     } else {
         text1 = ui->lineEdit->text();
         text2 = ui->lineEdit_2->text();
-        this->destroy();
+        text3 = ui->lineEdit_3->text();
+        this->accept();
     }
 }
+
+void Dialog::on_buttonBox_rejected()
+{
+    this->close();
+}
+
+

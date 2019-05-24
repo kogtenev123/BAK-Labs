@@ -15,7 +15,6 @@ public:
     Vector GetSpeed();
     Body(double x1, double y1, double v1_1, double v2_1, double m1, QColor col);// конструктор
     double mass() const;// получить массу
-
 private:
     double x; // координаты
     double y;
